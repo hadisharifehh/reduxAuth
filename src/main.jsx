@@ -5,7 +5,7 @@ import { Provider } from "react-redux";
 import { persistor, store } from "./Redux/store";
 import App from "./App";
 import { PersistGate } from "redux-persist/integration/react";
-import UsersList from "./getAllUsers/getAllUsers";
+import AdminList from "./getAllUsers/getAllUsers";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
@@ -13,7 +13,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(
       <PersistGate loading={null} persistor={persistor}>
         <App />
       </PersistGate>
-      <UsersList />
+      <AdminList />
     </Provider>
   </React.StrictMode>
 );

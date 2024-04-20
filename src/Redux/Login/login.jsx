@@ -25,7 +25,7 @@ export default function Login() {
     try {
       setError("");
       const response = await axios.get(
-        `http://localhost:3001/customerLogin/${userName}/${userPass}`
+        `http://localhost:3002/customerLogin/${userName}/${userPass}`
       );
       if (response.data && response.data.token) {
         const { name, token } = response.data;

@@ -12,17 +12,6 @@ function FakeApi() {
     //dispatch an action to getProduct
     dispatch(getProducts());
   }, [dispatch]); // Added dispatch as a dependency
-  {
-    /**
- const fetchData = async () => {
-    try {
-      const response = await axios.get("https://fakestoreapi.com/products");
-      setProducts(response.data);
-    } catch (error) {
-      console.log("Error fetching data:", error);
-    }
-  }; */
-  }
 
   const cards = products.map((product) => (
     <div key={product.id} className='col-md-3 py-2'>
@@ -60,7 +49,15 @@ function FakeApi() {
     </div>
   ));
 
-  return <div className='row py-5'>{cards}</div>;
+  return (
+    <div className='row py-5'>
+      {products.length === 0 ? (
+        <div>You have Connection problem. Please try again later.</div>
+      ) : (
+        cards
+      )}
+    </div>
+  );
 }
 
 export default FakeApi;
