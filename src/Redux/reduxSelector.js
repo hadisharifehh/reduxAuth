@@ -16,6 +16,10 @@ export const selectToken = createSelector(
   selectAuthState,
   (auth) => auth && auth.token
 );
+export const selectRefrToken = createSelector(
+  selectAuthState,
+  (auth) => auth && auth.refreshToken
+);
 
 // Selector to get the fullname from the auth state
 export const selectFullName = createSelector(
@@ -27,6 +31,10 @@ export const selectFullName = createSelector(
 export const selectExpiration = createSelector(
   selectAuthState,
   (auth) => auth && auth.expiration
+);
+export const selectExpirationRefToken = createSelector(
+  selectAuthState,
+  (auth) => auth && auth.expirationRefToken
 );
 
 export const selectProducts = createSelector(

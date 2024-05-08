@@ -27,15 +27,25 @@ export default function Login() {
       const response = await axios.get(
         `http://localhost:3002/customerLogin/${userName}/${userPass}`
       );
-      if (response.data && response.data.token) {
-        const { name, token } = response.data;
+      if (response.data && response.data.token && response.data.refreshToken) {
+        const { name, token, refreshToken } = response.data;
         // Decode the token to get expiration time
         const decodedToken = jwtDecode(token);
         const expirationTime = decodedToken.exp * 1000; // Convert to milliseconds
-        const expirationDate = new Date(expirationTime);
+        const expirationDate = new Date(expirationTime); //just to display the date on console
         console.log(expirationDate);
+        const decoderefreshToken = jwtDecode(refreshToken);
+        const expirationTimeRefreshToken = decoderefreshToken.exp * 1000;
         // Dispatch action to set token and expiration in Redux store
-        dispatch(loginSuccess({ token, name, expiration: expirationTime }));
+        dispatch(
+          loginSuccess({
+            token,
+            refreshToken,
+            name,
+            expiration: expirationTime,
+            expirationRefreshToken: expirationTimeRefreshToken,
+          })
+        );
         setNameofUser(name);
       } else {
         setNameofUser("");

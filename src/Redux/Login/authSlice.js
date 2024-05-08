@@ -2,10 +2,13 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   token: null,
+  refreshToken: null,
   isAuthenticated: false,
   name: null,
   expiration: null,
-  isShortTermExpiration: false, // New field to indicate short-term expiration
+  expirationRefToken: null,
+  isShortTermExpiration: false,
+  isShortTermExpirationRefreshToken: false,
 };
 
 const authSlice = createSlice({
@@ -14,32 +17,36 @@ const authSlice = createSlice({
   reducers: {
     loginSuccess(state, action) {
       state.token = action.payload.token;
+      state.refreshToken = action.payload.refreshToken; // Store refresh token
       state.isAuthenticated = true;
       state.name = action.payload.name;
       state.expiration = action.payload.expiration;
+      state.expirationRefToken = action.payload.expirationRefreshToken;
 
-      // Calculate time difference in milliseconds
+      // Calculate time difference for access token expiration
       const timeDifference = action.payload.expiration - Date.now();
-      // Set isShortTermExpiration flag based on the duration (e.g., 1 minute)
-      state.isShortTermExpiration =
-        timeDifference < 2 * 60 * 1000 ? true : false;
+      // Set isShortTermExpiration flag based on the duration (e.g., 2 minutes)
+      state.isShortTermExpiration = timeDifference < 2 * 60 * 1000;
+
+      // Calculate time difference for refresh token expiration
+      const timeDifferenceRefreshToken =
+        action.payload.expirationRefreshToken - Date.now();
+      // Set isShortTermExpirationRefreshToken flag based on the duration (e.g., 7 days)
+      state.isShortTermExpirationRefreshToken =
+        timeDifferenceRefreshToken < 10 * 60 * 1000;
     },
+
     logoutSuccess(state) {
-      /**  
-          
-      state.token = null;
-      state.isAuthenticated = false;
-      state.name = null;
-      state.expiration = null;
-      state.isShortTermExpiration = false; 
-      or you can type : Object.assign(state, initialState); 
-      
-      */
       Object.assign(state, initialState);
+    },
+
+    updateAccessToken(state, action) {
+      state.token = action.payload; // Update access token
     },
   },
 });
 
-export const { loginSuccess, logoutSuccess } = authSlice.actions;
+export const { loginSuccess, logoutSuccess, updateAccessToken } =
+  authSlice.actions;
 
 export default authSlice.reducer;

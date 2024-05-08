@@ -26,6 +26,7 @@ const persistConfig = {
 
 const authPersistConfig = {
   key: "auth",
+  version: 1,
   storage: storage,
 };
 
