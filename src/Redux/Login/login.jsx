@@ -32,9 +32,9 @@ export default function Login() {
         // Decode the token to get expiration time
         const decodedToken = jwtDecode(token);
         const expirationTime = decodedToken.exp * 1000; // Convert to milliseconds
-        // Dispatch action to set token and expiration in Redux store
         const expirationDate = new Date(expirationTime);
         console.log(expirationDate);
+        // Dispatch action to set token and expiration in Redux store
         dispatch(loginSuccess({ token, name, expiration: expirationTime }));
         setNameofUser(name);
       } else {

@@ -41,7 +41,7 @@ export const store = configureStore({
     cart: persistedReducer,
     auth: persistedAuthReducer,
   },
-
+  // for Redux "Persist" you have to write
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
       serializableCheck: {
@@ -51,3 +51,10 @@ export const store = configureStore({
 });
 
 export let persistor = persistStore(store);
+/**
+ * note: serializableCheck serializableCheck serializableCheck :
+ * If you're using Redux "Persist" to persist your Redux store to storage
+ * (like local storage or AsyncStorage), it's common to include the
+ *  serializableCheck middleware to ensure
+ *  that the persisted state is serializable.
+ */

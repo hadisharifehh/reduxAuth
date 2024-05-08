@@ -25,11 +25,17 @@ const authSlice = createSlice({
         timeDifference < 2 * 60 * 1000 ? true : false;
     },
     logoutSuccess(state) {
+      /**  
+          
       state.token = null;
       state.isAuthenticated = false;
       state.name = null;
       state.expiration = null;
-      state.isShortTermExpiration = false; // Reset isShortTermExpiration when logging out
+      state.isShortTermExpiration = false; 
+      or you can type : Object.assign(state, initialState); 
+      
+      */
+      Object.assign(state, initialState);
     },
   },
 });

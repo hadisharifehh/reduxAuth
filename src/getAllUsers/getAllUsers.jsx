@@ -11,11 +11,15 @@ function UsersList() {
   const token = useSelector(selectToken);
   const [userRole, setUserRole] = useState("");
   const [userPermissions, setUserPermissions] = useState([]);
+  const [userMessage, seUserMessage] = useState("");
 
   useEffect(() => {
     const fetchUsers = async () => {
       setIsLoading(true);
       setError(null);
+      setUsers("");
+      setUserRole("");
+      setUserPermissions("");
       if (token) {
         try {
           const response = await axios.get("http://localhost:3002/user", {
@@ -27,6 +31,7 @@ function UsersList() {
         } catch (error) {
           console.error("Error fetching users:", error);
           setError(error);
+          seUserMessage("authentication expired try to login");
         } finally {
           setIsLoading(false);
         }
@@ -54,7 +59,11 @@ function UsersList() {
   return (
     <div>
       {isLoading && <p>Loading users...</p>}
-      {error && <p>Error: {error.message}</p>}
+      {error && (
+        <p>
+          Error: {error.message} <br /> <h3>{userMessage}</h3>
+        </p>
+      )}
       {users.length > 0 && (
         <ul>
           {users.map((user) => (
@@ -64,7 +73,7 @@ function UsersList() {
       )}
       {userPermissions.includes("write") && <button>Add User</button>}
       {userPermissions.includes("delete") && <button>Delete User</button>}
-      {userRole}
+      userRole from server side is : {userRole}
     </div>
   );
 }
